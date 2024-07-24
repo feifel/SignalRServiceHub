@@ -57,3 +57,35 @@ This sections describes how this  project was created. If you want to use Signal
     `git remote add origin <your-repository-URL>`
     4. The remote branch is main, the local is master, so we need to: `git branch -M main`
     5. Push the local changes to GitHub: `git push -u origin main`
+
+# Deploy the Service on Microsoft Azure Cloud
+
+In order to access the SignalRServiceHub via Internet, it needs to be running on a server that is accessible via internet. With some restrictions, Microsoft Azure Cloud offers this for free. This section describes how to deploy the Service on Microsoft Azure Cloud:
+
+1. Prepare Microsoft Azure:
+    1. [Create an Azure account for free](https://azure.microsoft.com/free/dotnet)
+    2. Go to the [Azure Portal](https://portal.azure.com/)
+    3. Press open the “Hamburger” Menu and select “+ Create a resource”
+    4. Click on “Web App → Create”
+    5. Fill in the necessary details like subscription, resource group, and app name. Choose the runtime stack (e.g., .NET 8.0) and the region.
+    6. NOTE: Make sure that you enable **Authentication settings, this is required for deployment from Visual Studio**
+2. **Publish from Visual Studio**:
+    - Open your ASP.NET project in Visual Studio.
+    - Right-click on the project in Solution Explorer and select “Publish”.
+    - In the Publish dialog, select “Azure” and then “Next”.
+    - Choose “Azure App Service (Windows)” or “Azure App Service (Linux)” based on your preference, and click “Next”.
+    - Sign in with your Azure credentials if prompted.
+    - You should see the Azure Entry we have crated in step 1, select it an press Finish
+    - Close the Wizzard
+3. Back in Visual Studio, you see now “SignalRServiceHub - Web Deploy.pubxml”. Press the “Publish” button to publish it.
+    - Visual Studio will build and deploy your application to Azure.
+    - You can monitor the deployment progress in the Output window.
+    - Once the deployment is complete, Visual Studio will provide a link to your live web app.
+    - [For more detailed instructions, you can refer to the official Microsoft documentation1](https://learn.microsoft.com/en-us/azure/app-service/quickstart-dotnetcore)[2](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/azure-apps/?view=aspnetcore-8.0).
+4. The link [https://signalrservicehub.azurewebsites.net/](https://signalrservicehub.azurewebsites.net/) can now be configured in the Client app, e.g. BlazorPawAgentX in app.razor:
+    
+    ```jsx
+    @code{
+        public const string ServiceHubUrl = "https://signalrservicehub.azurewebsites.net/servicehub";
+    }
+    ```
